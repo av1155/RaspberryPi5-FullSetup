@@ -1,0 +1,2 @@
+[all]
+dtoverlay=dwc2,dr_mode=peripheral
