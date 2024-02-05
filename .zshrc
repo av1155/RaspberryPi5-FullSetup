@@ -11,7 +11,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # ZSH_THEME="robbyrussell"
 
 # Pure prompt path
-fpath+=("$HOME/.zsh/pure")
+fpath+=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/pure
 
 # Initialize Pure prompt
 autoload -U promptinit; promptinit
