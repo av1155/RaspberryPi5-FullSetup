@@ -29,3 +29,115 @@ sudo raspi-config
 ```
 
 - Interface Options > VNC (enable it)
+
+## Other Packages
+
+### Lazygit
+
+- **Download the Lazygit Binary**:
+
+  - You can download it directly from the command line using `wget` or `curl`. Since direct downloading via the command line might be challenging without the direct link, I recommend downloading the binary from the Lazygit releases page on GitHub using a browser or constructing the download command based on the GitHub URL structure for releases.
+
+  Assuming you have access to `wget`, you could use:
+
+```bash
+wget https://github.com/jesseduffield/lazygit/releases/download/v0.40.2/lazygit_0.40.2_Linux_arm64.tar.gz
+```
+
+- **Extract the Tarball**:
+
+  - Once the tar.gz file is downloaded, extract it using:
+
+```bash
+tar -xzf lazygit_0.40.2_Linux_arm64.tar.gz
+```
+
+- **Move Lazygit to a System-wide Location**:
+
+  - After extracting, you'll find the `lazygit` executable. Move it to a location in your system's PATH to make it accessible system-wide. A common choice is `/usr/local/bin/`.
+
+```bash
+sudo mv lazygit /usr/local/bin/
+```
+
+- **Verify Installation**:
+
+  - To ensure Lazygit was installed successfully, run:
+
+```bash
+lazygit --version
+```
+
+### Neovim
+
+#### 1\. Install Docker
+
+Ensure Docker is installed on your system. If not, you can install it by following the official Docker documentation or by using the simplified commands below for a Debian system:
+
+```bash
+sudo apt update
+sudo apt install docker.io
+```
+
+After installation, start the Docker service and enable it to launch at boot:
+
+```bash
+sudo systemctl start docker
+sudo systemctl enable docker
+```
+
+#### 2\. Clone the `neovim-aarch64-appimage` Repository
+
+If you have a specific repository or script called `neovim-aarch64-appimage` for building the Neovim AppImage, you'll first need to clone that repository or obtain the `build.sh` script. If this script is part of an online repository, you would typically use `git` to clone it:
+
+```bash
+git clone https://github.com/matsuu/neovim-aarch64-appimage.git
+cd neovim-aarch64-appimage
+```
+
+#### 3\. Building the Neovim AppImage
+
+Before building the image run the following command to get permission:
+
+- `sudo usermod -aG docker $USER`
+- `sudo reboot`
+
+Inside the repository directory, you can build the Neovim AppImage.
+
+```bash
+./build.sh v0.9.4
+```
+
+This process will create a Neovim AppImage for the specified version.
+
+#### 4\. Make the AppImage Executable
+
+Once the build process completes, you should have a Neovim AppImage file for aarch64. You'll need to make it executable:
+
+```bash
+sudo apt-get update
+sudo apt-get install fuse libfuse2
+```
+
+```bash
+chmod +x nvim-v0.9.4.appimage
+```
+
+#### 5\. Run Neovim
+
+Now, you can run Neovim directly from the AppImage:
+
+```bash
+./nvim-v0.9.4.appimage
+```
+
+#### Set an alias:
+
+Open either .bashrc or .zshrc and put this line:
+
+`alias vim='/home/andreaventi/neovim-aarch64-appimage/nvim-v0.9.4.appimage'`
+
+For configuration check this repository:
+`https://github.com/av1155/RaspberryPi-Nvim-Config`
+
+### Installing Java and Miniforge
