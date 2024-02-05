@@ -30,6 +30,12 @@ sudo raspi-config
 
 - Interface Options > VNC (enable it)
 
+## SSH
+
+1. Set up Blink Shell SSH Key
+2. Set up GitHub SSH Key
+3. Set up Code-Server Certification
+
 ## Other Packages
 
 ### Lazygit
@@ -141,3 +147,34 @@ For configuration check this repository:
 `https://github.com/av1155/RaspberryPi-Nvim-Config`
 
 ### Installing Java and Miniforge
+
+#### Step 1: Install Java JDK
+
+1.  **Find the Download URL**: First, visit the official Oracle JDK download page or AdoptOpenJDK to get the download link for the ARM 64-bit version. This guide assumes you're using a terminal and know the direct URL to the JDK tar.gz file.
+2.  **Download JDK**: Download the JDK tar.gz file. If you have the direct URL, you can do something like this:
+
+```bash
+curl -L -O https://download.oracle.com/java/21/latest/jdk-21_linux-aarch64_bin.tar.gz
+```
+
+3. **Extract the JDK archive** to the specified directory `/usr/local`.
+
+```bash
+sudo tar -xvzf jdk-21_linux-aarch64_bin.tar.gz -C /usr/local
+```
+
+4. **Set up environment variables** to use the installed Java as the default. Add these lines to your `~/.bashrc` or `~/.zshrc` file:
+
+```bash
+export JAVA_HOME=/usr/local/jdk-21.0.2
+export PATH=$PATH:$JAVA_HOME/bin
+```
+
+#### Step 2: Install Miniforge
+
+1.  **Download Miniforge Installer**: Download the Miniforge installer for ARM64 architectures. Find the download link from the Miniforge GitHub releases page.
+
+```bash
+curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+bash Miniforge3-$(uname)-$(uname -m).sh
+```
