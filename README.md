@@ -258,3 +258,13 @@ bash Miniforge3-$(uname)-$(uname -m).sh
 sudo apt update
 sudo apt install ruby-full
 ```
+
+```bash
+gem install colorls
+```
+
+2. luarocks
+
+```bash
+sudo apt install luarocks
+```
