@@ -30,11 +30,80 @@ sudo raspi-config
 
 - Interface Options > VNC (enable it)
 
+```bash
+sudo systemctl enable vncserver-x11-serviced.service
+sudo systemctl start vncserver-x11-serviced.service
+```
+
+- Set a password for service:
+
+```bash
+sudo vncpasswd -service
+```
+
+5. Install ZSH
+
+- Install:
+
+```bash
+sudo apt update
+sudo apt install zsh
+```
+
+- Set as default:
+
+```bash
+chsh -s $(which zsh)
+```
+
+- Install Oh My Zsh:
+
+```bash
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+- Install Pure Prompt
+
+```bash
+git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-completions
+git clone https://github.com/sindresorhus/pure.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/pure
+```
+
+- Configure .zshrc file:
+
+```bash
+ZSH_THEME=""
+fpath+=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/pure
+autoload -U promptinit; promptinit
+prompt pure
+```
+
+- Install OMZ Plugins:
+
+```bash
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+```
+
+```bash
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+```
+
+- Activate Plugins in .zshrc file:
+
+```bash
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions)
+```
+
 ## SSH
 
 1. Set up Blink Shell SSH Key
 2. Set up GitHub SSH Key
 3. Set up Code-Server Certification
+
+### Disable MOTD
+
+`sudo mv /etc/motd /etc/motdDisabled
+`
 
 ## Other Packages
 
@@ -116,6 +185,8 @@ Inside the repository directory, you can build the Neovim AppImage.
 
 This process will create a Neovim AppImage for the specified version.
 
+If the building of the image goes wrong run: `docker image prune -a`
+
 #### 4\. Make the AppImage Executable
 
 Once the build process completes, you should have a Neovim AppImage file for aarch64. You'll need to make it executable:
@@ -177,4 +248,13 @@ export PATH=$PATH:$JAVA_HOME/bin
 ```bash
 curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
 bash Miniforge3-$(uname)-$(uname -m).sh
+```
+
+### Installing Other Languages and Their Tools
+
+1. Ruby
+
+```bash
+sudo apt update
+sudo apt install ruby-full
 ```
