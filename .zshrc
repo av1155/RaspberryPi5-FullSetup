@@ -280,3 +280,5 @@ export PATH=$PATH:/sbin:/usr/sbin
 
 export JAVA_HOME=/usr/local/jdk-21.0.2
 export PATH=$PATH:$JAVA_HOME/bin
+
+export PATH="$HOME/.local/bin:$PATH"
