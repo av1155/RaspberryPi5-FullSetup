@@ -6,23 +6,23 @@ Welcome to the setup guide for configuring your Raspberry Pi 5 to work seamlessl
 
 1.  [Introduction](#introduction)
 2.  [Dependencies Installation](#dependencies-installation)
-    -   File Configurations
-    -   dnsmasq
-    -   Node.js (via nodesource)
-    -   code-server
-    -   VNC Remote Desktop
-    -   ZSH and Oh My Zsh
+    - File Configurations
+    - dnsmasq
+    - Node.js (via nodesource)
+    - code-server
+    - VNC Remote Desktop
+    - ZSH and Oh My Zsh
 3.  [SSH Configuration](#ssh-configuration)
-    -   Blink Shell SSH Key
-    -   GitHub SSH Key
-    -   Code-Server Certification
-    -   Disable MOTD
+    - Blink Shell SSH Key
+    - GitHub SSH Key
+    - Code-Server Certification
+    - Disable MOTD
 4.  [Enhancements and Tools](#enhancements-and-tools)
-    -   Lazygit
-    -   Docker
-    -   Neovim
-    -   Java and Miniforge
-    -   Other Languages and Tool
+    - Lazygit
+    - Docker
+    - Neovim
+    - Java, Miniforge, and TMUX
+    - Other Languages and Tool
 5.  [Creating a Backup of Your SD Card](#creating-a-backup-of-your-sd-card)
 6.  [Conclusion](#conclusion)
 
@@ -43,26 +43,26 @@ sudo apt full-upgrade
 
 **Modify `config.txt` and `cmdline.txt` under the root directory:**
 
--   **`config.txt`:**
+- **`config.txt`:**
 
-    -   Add the following line to the end of the file, after `[all]`:
-        ```
-        dtoverlay=dwc2,dr_mode=peripheral
-        ```
+  - Add the following line to the end of the file, after `[all]`:
+    ```
+    dtoverlay=dwc2,dr_mode=peripheral
+    ```
 
-    **`cmdline.txt`:**
+  **`cmdline.txt`:**
 
-    -   Insert the following line just before `rootwait`:
-        ```
-        modules-load=dwc2,g_ether
-        ```
+  - Insert the following line just before `rootwait`:
+    ```
+    modules-load=dwc2,g_ether
+    ```
 
 **Create the following file `/etc/network/interfaces.d/usb0` to enable USB-C Network:**
 
--   Paste the contents under the respective file that is in this repository.
-    ```bash
-    sudo nano /etc/network/interfaces.d/usb0
-    ```
+- Paste the contents under the respective file that is in this repository.
+  ```bash
+  sudo nano /etc/network/interfaces.d/usb0
+  ```
 
 **To enable USB0 Ethernet connection:**
 
@@ -73,17 +73,17 @@ sudo apt install dnsmasq
 
 **Create the following file `/etc/dnsmasq.d/usb0` to handle IP addresses:**
 
--   Paste the contents under the respective file that is in this repository.
-    ```bash
-    sudo nano /etc/dnsmasq.d/usb0
-    ```
+- Paste the contents under the respective file that is in this repository.
+  ```bash
+  sudo nano /etc/dnsmasq.d/usb0
+  ```
 
 **Create or modify the following file `/etc/dhcpcd.conf`**
 
--   Paste the contents under the respective file that is in this repository.
-    ```bash
-    sudo nano /etc/dhcpcd.conf
-    ```
+- Paste the contents under the respective file that is in this repository.
+  ```bash
+  sudo nano /etc/dhcpcd.conf
+  ```
 
 ### Final Steps and Verification
 
@@ -91,7 +91,7 @@ After completing these steps, reboot your Raspberry Pi to apply the changes. Onc
 
 This setup enables a direct Ethernet connection over USB, facilitating various network-based applications and services between your Raspberry Pi and iPad.
 
--   Credits go to: `https://youtu.be/L8r6kMod7Vw?si=tx7C4iFe1Elj0I5_`
+- Credits go to: `https://youtu.be/L8r6kMod7Vw?si=tx7C4iFe1Elj0I5_`
 
 ### 2\. Node.js LTS via nodesource
 
@@ -128,7 +128,7 @@ sudo systemctl start vncserver-x11-serviced.service
 sudo vncpasswd -service
 ```
 
--   Install RealVNC Viewer on your iPad from the App Store. After installation, open the app and connect to your Raspberry Pi using the IP address or hostname of your Pi. When prompted, enter the password you previously set with the `sudo vncpasswd -service` command on your Raspberry Pi. This ensures a secure connection between your iPad and the Raspberry Pi via VNC.
+- Install RealVNC Viewer on your iPad from the App Store. After installation, open the app and connect to your Raspberry Pi using the IP address or hostname of your Pi. When prompted, enter the password you previously set with the `sudo vncpasswd -service` command on your Raspberry Pi. This ensures a secure connection between your iPad and the Raspberry Pi via VNC.
 
 ### 5\. ZSH and Oh My Zsh Installation
 
@@ -160,19 +160,19 @@ prompt pure
 
 #### Step 3: Install and Activate ZSH Plugins
 
--   **ZSH Syntax Highlighting** for highlighting commands:
+- **ZSH Syntax Highlighting** for highlighting commands:
 
 ```bash
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
--   **ZSH Autosuggestions** for command suggestions based on history:
+- **ZSH Autosuggestions** for command suggestions based on history:
 
 ```bash
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
--   **ZSH Completions** for additional completion definitions:
+- **ZSH Completions** for additional completion definitions:
 
 ```bash
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-completions
@@ -188,9 +188,9 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions)
 
 Configure SSH for secure access:
 
--   Set up Blink Shell SSH Key for iPad connectivity.
--   Configure GitHub SSH Key for repository management.
--   Secure code-server with proper certification.
+- Set up Blink Shell SSH Key for iPad connectivity.
+- Configure GitHub SSH Key for repository management.
+- Secure code-server with proper certification.
 
 ### Disable MOTD
 
@@ -313,11 +313,35 @@ curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Mi
 bash Miniforge3-$(uname)-$(uname -m).sh
 ```
 
+#### Step 3: Install TMUX
+
+1. **Install TMUX**: In aarch64 Debian Linux, we can use apt.
+
+```bash
+sudo apt update
+sudo apt install tmux
+```
+
+2. **Install TPM Plugin Manager**: We have to clone the GitHub repository.
+
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+3. **Config File**: Create a config file for tmux in the .config directory.
+
+```bash
+cd ~/.config
+mkdir -p tmux
+```
+
+- Lastly, either create a new tmux.conf file inside of the newly created ~/.config/tmux directory, or simply copy the tmux.conf file or its contents from this repository under ~/.config/tmux/
+
 ### Other Languages and Tools
 
 Install additional languages and tools such as Ruby, LuaRocks, and their respective utilities to enhance your development environment further.
 
--   **Ruby and Colorls**
+- **Ruby and Colorls**
 
 ```bash
 sudo apt update
@@ -325,7 +349,7 @@ sudo apt install ruby-full
 gem install colorls
 ```
 
--   **Luarocks**
+- **Luarocks**
 
 ```bash
 sudo apt install luarocks
@@ -351,8 +375,8 @@ To securely back up the SD card of your Raspberry Pi, follow these steps using t
 
 ### Tips for a Successful Backup
 
--   **Verify the Backup:** After the backup process concludes, it's wise to verify that the backup microSD card boots correctly in your Raspberry Pi. This step ensures that the backup is reliable and complete.
--   **Regular Backups:** Regularly update your backup, especially after significant changes to your Raspberry Pi's configuration or data, to keep it current and useful.
+- **Verify the Backup:** After the backup process concludes, it's wise to verify that the backup microSD card boots correctly in your Raspberry Pi. This step ensures that the backup is reliable and complete.
+- **Regular Backups:** Regularly update your backup, especially after significant changes to your Raspberry Pi's configuration or data, to keep it current and useful.
 
 By following these detailed steps, you create a dependable backup of your Raspberry Pi's SD card, safeguarding your projects and data against unforeseen issues or failures.
 
