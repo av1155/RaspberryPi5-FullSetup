@@ -124,12 +124,13 @@ fi
 
 # Sourced + Aliased Scripts ------------------------------------------------------->
 [ -f ~/scripts/scripts/JavaProject.zsh ] && { source ~/scripts/scripts/JavaProject.zsh; alias jp="javaproject"; }
-[ -f ~/scripts/scripts/JavaCompiler/JavaCompiler.zsh ] && source ~/scripts/scripts/JavaCompiler/JavaCompiler.zsh
+[ -f ~/scripts/scripts/JavaCompiler/JavaCompiler.zsh ] && alias jcr="~/scripts/scripts/JavaCompiler/JavaCompiler.zsh"
 [ -f ~/scripts/scripts/imgp.sh ] && alias imgp="~/scripts/scripts/imgp.sh"
 [ -f ~/scripts/scripts/sqlurl.sh ] && alias sqlurl="~/scripts/scripts/sqlurl.sh"
 [ -f ~/scripts/scripts/nvim_surround_usage.sh ] && alias vs="~/scripts/scripts/nvim_surround_usage.sh"
 
 alias vim='/home/andreaventi/neovim-aarch64-appimage/nvim-v0.9.4.appimage'
+alias fd='fdfind'
 
 # Check if Git is installed
 if command -v git &>/dev/null; then
@@ -282,3 +283,4 @@ export JAVA_HOME=/usr/local/jdk-21.0.2
 export PATH=$PATH:$JAVA_HOME/bin
 
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
