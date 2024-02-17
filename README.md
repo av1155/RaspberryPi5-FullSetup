@@ -121,7 +121,7 @@ sudo raspi-config
 Navigate to:
 
 - Interface Options > VNC > Enable.
-- Display Options > VNC Resolution > 1280x720.
+- Display Options > VNC Resolution > 1024x768.
 - In a Raspberry Pi 5, also navigate to: Advanced Options > Wayland > X11.
 
 Start and enable VNC service:
