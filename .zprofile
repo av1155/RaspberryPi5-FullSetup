@@ -10,6 +10,8 @@ if command -v tmux &>/dev/null && [ -z "$TMUX" ]; then
         tmux new-session -s main -d
         tmux attach-session -t main
     fi
+
+    tmux source-file ~/.config/tmux/tmux.conf
 fi
 
 # <=================== NEOFETCH ====================>
