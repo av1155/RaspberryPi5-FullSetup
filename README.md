@@ -32,7 +32,25 @@ This guide is tailored for developers looking to leverage the power of their Ras
 
 ## Dependencies Installation
 
-### 0\. Update Raspberri Pi
+### 0\. Raspberry Pi OS and Update Raspberry Pi
+
+To set up your Raspberry Pi for remote desktop access, follow these steps:
+
+1.  Visit [https://www.raspberrypi.com/software/](https://www.raspberrypi.com/software/) and download the Raspberry Pi Imager software onto your computer.
+    
+2.  Insert a microSD card into an SD card reader connected to your computer.
+    
+3.  Launch the Raspberry Pi Imager application. In the application, select "Raspberry Pi 4" or "Raspberry Pi 5" as your device. (Note: This setup is expected to work with both models, though it has not been explicitly tested on the Raspberry Pi 4.)
+    
+4.  For the operating system, choose "Raspberry Pi OS Full (64-bit)" to ensure compatibility with VNC for remote desktop access.
+    
+5.  Before writing the image to the SD card, click on "Edit Settings." Here, you can configure your hostname, set a password, input WiFi settings, and enable SSH. These steps are crucial for remote access and should not be skipped.
+    
+6.  Once configured, proceed to write the OS image to the SD card. After completion, safely eject the SD card from your computer and insert it into your Raspberry Pi.
+    
+7.  At this point, direct USB Ethernet connection is not yet available. However, you can initiate a regular SSH session. Power on your Raspberry Pi and connect to it via SSH using the configurations set in the previous step.
+
+Finally, make sure to update!
 
 ```bash
 sudo apt update
