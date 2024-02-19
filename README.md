@@ -109,7 +109,7 @@ After completing these steps, reboot your Raspberry Pi to apply the changes. Onc
 
 This setup enables a direct Ethernet connection over USB, facilitating various network-based applications and services between your Raspberry Pi and iPad.
 
-- Credits go to: `https://youtu.be/L8r6kMod7Vw?si=tx7C4iFe1Elj0I5_`
+- Credits go to [Tech Craft](https://youtu.be/L8r6kMod7Vw?si=tx7C4iFe1Elj0I5_).
 
 ### 2\. Node.js LTS via nodesource
 
