@@ -3,3 +3,6 @@ etc
 cmdline.txt
 config.txt
 README.md
+configs
+zsh
+openai_api_key.sh
