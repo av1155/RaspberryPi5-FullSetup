@@ -30,6 +30,15 @@ Welcome to the setup guide for configuring your Raspberry Pi 5 to work seamlessl
 
 This guide is tailored for developers looking to leverage the power of their Raspberry Pi 5 by connecting it to an iPad Pro for a versatile development setup. Whether you're coding on the go or need a portable server, this guide will help you set up your environment efficiently.
 
+### Requirements
+
+- **Raspberry Pi:** Raspberry Pi 5 or Raspberry Pi 4 recommended (these both have USB-C).
+- **Cable:** A high-quality and short USB-C or Thunderbolt 3 or 4 cable is essential for a stable connection. For the Raspberry Pi 5, a Thunderbolt 4 cable is recommended based on personal experience.
+- **Micro-SD Card:** A minimum capacity of 32GB is advised for optimal performance, along with an SD card reader for OS image installation.
+- **Secondary Computer:** Required for burning the operating system image onto the micro-SD card.
+- **iPad with USB-C Port:** Any model equipped with a USB-C port should suffice. The iPad will not only power the Raspberry Pi but also serve as the interface for a USB Ethernet connection. The use of a high-quality USB-C Thunderbolt cable ensures a reliable link.
+- **This Setup:** An iPad Pro with USB-C, Thunderbolt 4 cable from Anker, and Raspberry Pi 5 is used in this setup.
+
 ## Dependencies Installation
 
 ### 0\. Raspberry Pi OS Setup and Raspberry Pi Update
@@ -37,17 +46,11 @@ This guide is tailored for developers looking to leverage the power of their Ras
 To set up your Raspberry Pi for remote desktop access, follow these steps:
 
 1.  Visit [https://www.raspberrypi.com/software/](https://www.raspberrypi.com/software/) and download the Raspberry Pi Imager software onto your computer.
-    
 2.  Insert a microSD card into an SD card reader connected to your computer.
-    
 3.  Launch the Raspberry Pi Imager application. In the application, select "Raspberry Pi 4" or "Raspberry Pi 5" as your device. (Note: This setup is expected to work with both models, though it has not been explicitly tested on the Raspberry Pi 4.)
-    
 4.  For the operating system, choose "Raspberry Pi OS Full (64-bit)" to ensure compatibility with VNC for remote desktop access.
-    
 5.  Before writing the image to the SD card, click on "Edit Settings." Here, you can configure your hostname, set a password, input WiFi settings, and enable SSH. These steps are crucial for remote access and should not be skipped.
-    
 6.  Once configured, proceed to write the OS image to the SD card. After completion, safely eject the SD card from your computer and insert it into your Raspberry Pi.
-    
 7.  At this point, direct USB Ethernet connection is not yet available. However, you can initiate a regular SSH session. Power on your Raspberry Pi and connect to it via SSH using the configurations set in the previous step.
 
 Finally, make sure to update!
