@@ -32,7 +32,7 @@ This guide is tailored for developers looking to leverage the power of their Ras
 
 ## Dependencies Installation
 
-### 0\. Raspberry Pi OS and Update Raspberry Pi
+### 0\. Raspberry Pi OS Setup and Raspberry Pi Update
 
 To set up your Raspberry Pi for remote desktop access, follow these steps:
 
