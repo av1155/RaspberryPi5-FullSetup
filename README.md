@@ -38,7 +38,9 @@ This guide is tailored for developers looking to leverage the power of their Ras
 - **Micro-SD Card:** A minimum capacity of 32GB is advised for optimal performance, along with an SD card reader for OS image installation.
 - **Secondary Computer:** Required for burning the operating system image onto the micro-SD card.
 - **iPad with USB-C Port:** Any model equipped with a USB-C port should suffice. The iPad will not only power the Raspberry Pi but also serve as the interface for a USB Ethernet connection. The use of a high-quality USB-C Thunderbolt cable ensures a reliable link.
-- **This Setup:** An iPad Pro with USB-C, Thunderbolt 4 cable from Anker, and Raspberry Pi 5 is used in this setup.
+- **Keyboard and Mouse:** Any iPad-compatible keyboard and mouse, including case keyboards and mice like the Apple iPad Magic Keyboard, or Bluetooth peripherals.
+- **iPad Shell/SSH App:** An application that enables SSH connections to any device. Apps like Blink Shell, Termius, or iSH Shell can be used. This configuration utilizes Blink Shell due to its native Visual Studio Code instance, as well as its compatibility with Nerd Fonts and themes.
+- **This setup includes:** An iPad Pro with USB-C, a Thunderbolt 4 cable from Anker, and a Raspberry Pi 5.
 
 ## Dependencies Installation
 
