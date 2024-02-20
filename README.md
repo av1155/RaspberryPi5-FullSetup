@@ -12,6 +12,7 @@ Welcome to the setup guide for configuring your Raspberry Pi 5 to work seamlessl
     - code-server
     - VNC Remote Desktop
     - ZSH and Oh My Zsh
+    - Cockpit and firewalld
 3.  [SSH Configuration](#ssh-configuration)
     - Blink Shell SSH Key
     - GitHub SSH Key
@@ -153,6 +154,13 @@ sudo systemctl start vncserver-x11-serviced.service
 sudo vncpasswd -service
 ```
 
+If you're planning to use the X11 service instead of Wayland (this setup assumes you do) for compatibility with RealVNC Viewer, you'll need to disable the Wayland VNC service (wayvnc) to avoid conflicts. The `wayvnc.service` is specifically for Wayland's VNC server, and disabling it helps ensure your system uses X11 for remote desktop access. Here's how to stop and disable the Wayland VNC service:
+
+```bash
+sudo systemctl stop wayvnc.service
+sudo systemctl disable wayvnc.service
+```
+
 - Install RealVNC Viewer on your iPad from the App Store. After installation, open the app and connect to your Raspberry Pi using the IP address or hostname of your Pi. When prompted, enter the password you previously set with the `sudo vncpasswd -service` command on your Raspberry Pi. This ensures a secure connection between your iPad and the Raspberry Pi via VNC.
 
 ### 5\. ZSH and Oh My Zsh Installation
@@ -207,6 +215,105 @@ git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-~/.oh-my-zs
 
 ```bash
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions)
+```
+
+### Cockpit and Firewalld
+
+**1\. Install Cockpit:**
+
+First, update your system's package list and install Cockpit. Then, enable and start the `cockpit.socket` service to allow Cockpit to start automatically:
+
+```bash
+sudo apt update
+sudo apt install cockpit
+sudo systemctl enable --now cockpit.socket
+```
+
+Access Cockpit by entering the following URL in your iPad's local browser: `https://10.55.0.1:9090`. Log in with your Raspberry Pi's username and password.
+
+**2\. Install and Configure Firewalld:**
+
+Update your package list again and install `firewalld`:
+
+```bash
+sudo apt update
+sudo apt install firewalld
+```
+
+**Determine which ports need to be allowed** and add them to the firewall allow list:
+
+```bash
+ss -tuln
+```
+
+**For example**, to allow essential ports:
+
+```bash
+# General syntax: sudo firewall-cmd --zone=public --add-port=<port>/<protocol> --permanent
+sudo firewall-cmd --zone=public --add-port=22/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=22/udp --permanent
+# Repeat for other ports as necessary...
+```
+
+In my case, for example, I added the following:
+
+```bash
+# Allow both TCP and UDP for each port
+sudo firewall-cmd --zone=public --add-port=22/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=22/udp --permanent
+
+sudo firewall-cmd --zone=public --add-port=53/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=53/udp --permanent
+
+sudo firewall-cmd --zone=public --add-port=631/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=631/udp --permanent
+
+sudo firewall-cmd --zone=public --add-port=25/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=25/udp --permanent
+
+sudo firewall-cmd --zone=public --add-port=5900/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=5900/udp --permanent
+
+sudo firewall-cmd --zone=public --add-port=8081/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=8081/udp --permanent
+
+sudo firewall-cmd --zone=public --add-port=9090/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=9090/udp --permanent
+
+sudo firewall-cmd --zone=public --add-port=67/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=67/udp --permanent
+
+sudo firewall-cmd --zone=public --add-port=5353/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=5353/udp --permanent
+
+sudo firewall-cmd --zone=public --add-port=51314/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=51314/udp --permanent
+
+sudo firewall-cmd --zone=public --add-port=40989/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=40989/udp --permanent
+```
+
+**Add the `usb0` interface to the `public` zone** to ensure it's covered by the firewall rules:
+
+```bash
+sudo firewall-cmd --zone=public --add-interface=usb0 --permanent
+```
+
+**Reload `firewalld`** to apply the changes, and ensure `firewalld` is enabled to start automatically:
+
+```bash
+sudo firewall-cmd --reload
+sudo systemctl enable --now firewalld
+sudo firewall-cmd --state  # Check the firewall state
+```
+
+**3\. Install the Navigator Cockpit App:**
+
+Download and install the Navigator app for an enhanced file browsing experience in Cockpit:
+
+```bash
+wget https://github.com/45Drives/cockpit-navigator/releases/download/v0.5.10/cockpit-navigator_0.5.10-1focal_all.deb
+sudo apt install ./cockpit-navigator_0.5.10-1focal_all.deb
 ```
 
 ## SSH Configuration
@@ -410,3 +517,7 @@ By following these detailed steps, you create a dependable backup of your Raspbe
 By following this guide, you will have a fully equipped Raspberry Pi 5 setup, ready to connect to an iPad Pro and serve as a versatile development platform. This configuration enables you to develop, manage projects, and code anywhere, providing a flexible and powerful coding environment.
 
 Should you encounter any issues or have questions, the community forums and official documentation for each tool or language are great resources for support and further learning.
+
+```
+
+```
