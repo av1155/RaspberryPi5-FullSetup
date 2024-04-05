@@ -519,7 +519,3 @@ By following these detailed steps, you create a dependable backup of your Raspbe
 By following this guide, you will have a fully equipped Raspberry Pi 5 setup, ready to connect to an iPad Pro and serve as a versatile development platform. This configuration enables you to develop, manage projects, and code anywhere, providing a flexible and powerful coding environment.
 
 Should you encounter any issues or have questions, the community forums and official documentation for each tool or language are great resources for support and further learning.
-
-```
-
-```
