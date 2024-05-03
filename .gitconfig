@@ -1,6 +1,6 @@
 [user]
     email = 117413846+av1155@users.noreply.github.com
-    name = Andrea Venti Fuentes
+	name = av1155
     # signingkey = [Your GPG Key ID]
 
 [core]
@@ -35,3 +35,29 @@
 
 [diff]
   algorithm = histogram
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[core]
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true    # use n and N to move between diff section
+    side-by-side = true
+
+    # delta detects terminal colors automaticaly; set one of these to disable auto-detection
+    # dark = true
+    # light = true
+
+[merge]
+    conflictStyle = diff3
+
+[diff]
+    colorMoved = default

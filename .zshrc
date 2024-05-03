@@ -114,23 +114,41 @@ source $ZSH/oh-my-zsh.sh
 # and then directly change to the selected directory. It uses 'find' to list directories,
 # 'fzf' for interactive selection, and 'colorls' to preview directories with color coding.
 
-if command -v find &>/dev/null && command -v fzf &>/dev/null && command -v colorls &>/dev/null; then
+if command -v fd &>/dev/null && command -v fzf &>/dev/null && command -v colorls &>/dev/null; then
     fcd() {
-        local depth="${1:-7}"  # Default depth is 7, but can be overridden by first argument
+        local depth="${1:-9}"  # Default depth is 9, but can be overridden by first argument
         local dir
-        dir=$(find * -type d -maxdepth "$depth" 2>/dev/null | fzf --preview 'colorls --tree=2 --sd --gs --color=always {}' +m) && cd "$dir" || return
+        dir=$(fd --type d --hidden --max-depth "$depth"\
+            --exclude '.git' \
+            --exclude 'Photos' \
+            --exclude '.local' \
+            --exclude 'node_modules' \
+            --exclude 'venv' \
+            --exclude 'env' \
+            --exclude '.venv' \
+            --exclude 'build' \
+            --exclude 'dist' \
+            --exclude 'cache' \
+            --exclude '.cache' \
+            --exclude 'tmp' \
+            --exclude '.tmp' \
+            --exclude 'temp' \
+            --exclude '.temp' \
+            --exclude 'Trash' \
+            --exclude '.Trash' \
+            . 2>/dev/null | fzf --preview 'eza --tree --level 2 --color=always {}' +m) && z "$dir" || return
     }
 fi
 
 # Sourced + Aliased Scripts ------------------------------------------------------->
 [ -f ~/scripts/scripts/JavaProject.zsh ] && { source ~/scripts/scripts/JavaProject.zsh; alias jp="javaproject"; }
-[ -f ~/scripts/scripts/JavaCompiler/JavaCompiler.zsh ] && alias jcr="~/scripts/scripts/JavaCompiler/JavaCompiler.zsh"
+[ -f ~/scripts/scripts/JavaProjectManager/JavaProjectManager.zsh ] && alias jcr="~/scripts/scripts/JavaProjectManager/JavaProjectManager.zsh"
 [ -f ~/scripts/scripts/imgp.sh ] && alias imgp="~/scripts/scripts/imgp.sh"
 [ -f ~/scripts/scripts/sqlurl.sh ] && alias sqlurl="~/scripts/scripts/sqlurl.sh"
 [ -f ~/scripts/scripts/nvim_surround_usage.sh ] && alias vs="~/scripts/scripts/nvim_surround_usage.sh"
 
 alias vim='/home/andreaventi/neovim-aarch64-appimage/nvim-v0.9.4.appimage'
-alias fd='fdfind'
+# alias fd='fdfind'
 
 # Check if Git is installed
 if command -v git &>/dev/null; then
@@ -197,13 +215,77 @@ if command -v colorls &>/dev/null; then
 fi
 
 # <-------------------- FZF INITIALIZATION -------------------->
-
+# Source fzf if available
 [[ -f $HOME/.fzf.zsh ]] && source $HOME/.fzf.zsh
-export FZF_DEFAULT_OPS="--extended --layout=reverse"
-if type rg &> /dev/null; then
-    export FZF_DEFAULT_COMMAND='rg --files'
-    export FZF_DEFAULT_OPTS='-m --height 70% --border --layout=reverse'
-fi
+
+# --- setup fzf theme ---
+fg="#CBE0F0"            # Foreground color
+bg="#011628"            # Background color [UNUSED]
+bg_highlight="#143652"  # Background highlight color [UNUSED]
+purple="#B388FF"        # Purple color for highlights
+blue="#06BCE4"          # Blue color for info
+cyan="#2CF9ED"          # Cyan color for various elements
+
+
+# Set default FZF options
+export FZF_DEFAULT_OPTS="-m --height 70% --border --extended --layout=reverse --color=fg:${fg},hl:${purple},fg+:${fg},hl+:${purple},info:${blue},prompt:${cyan},pointer:${cyan},marker:${cyan},spinner:${cyan},header:${cyan}"
+
+# -- Use fd instead of fzf --
+export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+
+# Use fd (https://github.com/sharkdp/fd) for listing path candidates.
+# - The first argument to the function ($1) is the base path to start traversal
+# - See the source code (completion.{bash,zsh}) for the details.
+_fzf_compgen_path() {
+  fd --hidden --exclude .git . "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type=d --hidden --exclude .git . "$1"
+}
+
+# https://github.com/junegunn/fzf-git.sh
+source ~/fzf-git.sh/fzf-git.sh
+
+export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+
+
+# Advanced customization of fzf options via _fzf_comprun function
+# - The first argument to the function is the name of the command.
+# - You should make sure to pass the rest of the arguments to fzf.
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+    export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
+    ssh)          fzf --preview 'dig {}'                   "$@" ;;
+    *)            fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
+  esac
+}
+
+# ----- Bat (better cat) -----
+export BAT_THEME="Catppuccin Macchiato"
+
+# ---- TheFuck -----
+
+# thefuck alias
+eval $(thefuck --alias)
+eval $(thefuck --alias fk)
+
+# ---- Zoxide (better cd) ----
+eval "$(zoxide init zsh)"
+
+alias cd="z"
+
+# ---- Lazygit ----
+
+alias lg="lazygit"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -284,3 +366,16 @@ export PATH=$PATH:$JAVA_HOME/bin
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
+
+# <-------------------- JAVA CLASSPATH CONFIGURATION -------------------->
+
+# Define the base directory where the jars are stored
+CLASSPATH_PREFIX="home/andreaventi/.dotfiles/configs/javaClasspath"
+
+# Clear existing java classpath entries
+export CLASSPATH=""
+
+# Add each jar file found in the directory and its subdirectories to the CLASSPATH
+for jar in $(find "$CLASSPATH_PREFIX" -name '*.jar'); do
+  export CLASSPATH="$CLASSPATH:$jar"
+done

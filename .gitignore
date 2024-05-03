@@ -1,1 +1,22 @@
+!*/colorls/*
+!*/cs50lib/*
+!*/formatting_files/*
+!*/git/*
+!*/iTerm2_Profile/*
+!*/intelliJ_IDEA/*
+!*/javaClasspath/*
+!*/kitty/*
+!*/lazygit/*
+!*/neofetch/*
+!*/ssh/*
+!*/tmux/*
+!*/vscode/*
+!*/tmux/*
+!*/zsh/*
+
+# Secrets
+openai_api_key.sh
+bw_password
+.DS_Store
+
 openai_api_key.sh
