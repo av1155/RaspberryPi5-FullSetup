@@ -427,15 +427,23 @@ Steps for installing Java JDK and Miniforge to support a broad range of developm
 #### Step 1: Download and install the Java JDK:
 
 ```bash
-curl -L -O https://download.oracle.com/java/21/latest/jdk-21_linux-aarch64_bin.tar.gz
-sudo tar -xvzf jdk-21_linux-aarch64_bin.tar.gz -C /usr/local
+cd ~  # Navigate to the home directory
+wget https://download.oracle.com/java/22/latest/jdk-22_linux-aarch64_bin.tar.gz  # Download the JDK
+tar -xvf jdk-22_linux-aarch64_bin.tar.gz  # Extract the tar.gz file
 ```
 
-**Set up environment variables** to use the installed Java as the default. Add these lines to your `~/.bashrc` or `~/.zshrc` file:
+```bash
+sudo mkdir -p /usr/lib/jvm  # Create a directory for JVMs if it doesn't exist
+sudo mv jdk-22.0.1 /usr/lib/jvm/  # Move the extracted JDK directory to /usr/lib/jvm/
+```
+
+**Set up environment variables** to use the installed Java as the default.
 
 ```bash
-export JAVA_HOME=/usr/local/jdk-21.0.2
-export PATH=$PATH:$JAVA_HOME/bin
+echo "export JAVA_HOME=/usr/lib/jvm/jdk-22.0.1" >> ~/.zshrc
+echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> ~/.zshrc
+source ~/.zshrc
+java -version
 ```
 
 #### Step 2: Install Miniforge
@@ -481,6 +489,39 @@ Install additional languages and tools such as Ruby, LuaRocks, and their respect
 sudo apt update
 sudo apt install ruby-full
 gem install colorls
+```
+
+- **Ruby and Colorls**
+
+```bash
+sudo apt update
+sudo apt install delta
+sudo apt install thefuck
+gem install colorls
+```
+
+- **Cargo and Related Packages**
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+rustc --version
+```
+Remove the outdated `fzf` version and replace it with updated cargo `fzf`:
+```
+sudo apt remove fzf
+```
+
+```bash
+cargo install zoxide
+cargo install fzf
+cargo install eza
+cargo install bat
+```
+
+- **`fd` Symlink:**
+
+```bash
+sudo ln -s $(which fdfind) /usr/local/bin/fd
 ```
 
 - **Luarocks**
