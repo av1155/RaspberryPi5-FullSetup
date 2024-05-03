@@ -257,20 +257,22 @@ eval $(thefuck --alias fk)
 eval "$(zoxide init zsh)"
 alias z='zoxide query'
 export FUNCNEST=100
-alias cd="z_cd"
+alias z="cd"
+# alias cd="z_cd"
 
-function z_cd() {
-    if [[ -z "$1" ]]; then
-        builtin cd  # Use the built-in cd command directly
-    else
-        local dir=$(zoxide query "$@")  # Capture the output of zoxide query
-        if [[ -n "$dir" ]]; then
-            builtin cd "$dir"
-        else
-            builtin cd "$@"  # Fallback to regular cd if zoxide doesn't return a directory
-        fi
-    fi
-}
+# function z_cd() {
+#     if [[ -z "$1" ]]; then
+#         builtin cd  # Use the built-in cd command directly
+#     else
+#         local dir=$(zoxide query "$@")  # Capture the output of zoxide query
+#         if [[ -n "$dir" ]]; then
+#             builtin cd "$dir"
+#         else
+#             builtin cd "$@"  # Fallback to regular cd if zoxide doesn't return a directory
+#         fi
+#     fi
+# }
+
 # ---- Lazygit ----
 
 alias lg="lazygit"
