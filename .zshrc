@@ -17,6 +17,7 @@ fpath+=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/pure
 autoload -U promptinit; promptinit
 prompt pure
 
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
@@ -109,36 +110,6 @@ source $ZSH/oh-my-zsh.sh
 
 # <-------------------- CUSTOM FUNCTIONS -------------------->
 
-# fcd: A function to interactively navigate directories using find, fzf, and colorls.
-# This script allows you to visually search and select directories within a specified depth
-# and then directly change to the selected directory. It uses 'find' to list directories,
-# 'fzf' for interactive selection, and 'colorls' to preview directories with color coding.
-
-if command -v fd &>/dev/null && command -v fzf &>/dev/null && command -v colorls &>/dev/null; then
-    fcd() {
-        local depth="${1:-9}"  # Default depth is 9, but can be overridden by first argument
-        local dir
-        dir=$(fd --type d --hidden --max-depth "$depth"\
-            --exclude '.git' \
-            --exclude 'Photos' \
-            --exclude '.local' \
-            --exclude 'node_modules' \
-            --exclude 'venv' \
-            --exclude 'env' \
-            --exclude '.venv' \
-            --exclude 'build' \
-            --exclude 'dist' \
-            --exclude 'cache' \
-            --exclude '.cache' \
-            --exclude 'tmp' \
-            --exclude '.tmp' \
-            --exclude 'temp' \
-            --exclude '.temp' \
-            --exclude 'Trash' \
-            --exclude '.Trash' \
-            . 2>/dev/null | fzf --preview 'eza --tree --level 2 --color=always {}' +m) && z "$dir" || return
-    }
-fi
 
 # Sourced + Aliased Scripts ------------------------------------------------------->
 [ -f ~/scripts/scripts/JavaProject.zsh ] && { source ~/scripts/scripts/JavaProject.zsh; alias jp="javaproject"; }
@@ -216,7 +187,10 @@ fi
 
 # <-------------------- FZF INITIALIZATION -------------------->
 # Source fzf if available
-[[ -f $HOME/.fzf.zsh ]] && source $HOME/.fzf.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Set up fzf key bindings and fuzzy completion
+eval "$(fzf --zsh)"
 
 # --- setup fzf theme ---
 fg="#CBE0F0"            # Foreground color
@@ -278,14 +252,60 @@ export BAT_THEME="Catppuccin Macchiato"
 eval $(thefuck --alias)
 eval $(thefuck --alias fk)
 
+
 # ---- Zoxide (better cd) ----
 eval "$(zoxide init zsh)"
+alias z='zoxide query'
+export FUNCNEST=100
+alias cd="z_cd"
 
-alias cd="z"
-
+function z_cd() {
+    if [[ -z "$1" ]]; then
+        builtin cd  # Use the built-in cd command directly
+    else
+        local dir=$(zoxide query "$@")  # Capture the output of zoxide query
+        if [[ -n "$dir" ]]; then
+            builtin cd "$dir"
+        else
+            builtin cd "$@"  # Fallback to regular cd if zoxide doesn't return a directory
+        fi
+    fi
+}
 # ---- Lazygit ----
 
 alias lg="lazygit"
+
+
+# fcd: A function to interactively navigate directories using find, fzf, and colorls.
+# This script allows you to visually search and select directories within a specified depth
+# and then directly change to the selected directory. It uses 'find' to list directories,
+# 'fzf' for interactive selection, and 'colorls' to preview directories with color coding.
+
+if command -v fd &>/dev/null && command -v fzf &>/dev/null && command -v colorls &>/dev/null; then
+    fcd() {
+        local depth="${1:-9}"  # Default depth is 9, but can be overridden by first argument
+        local dir
+        dir=$(fd --type d --hidden --max-depth "$depth"\
+            --exclude '.git' \
+            --exclude 'Photos' \
+            --exclude '.local' \
+            --exclude 'node_modules' \
+            --exclude 'venv' \
+            --exclude 'env' \
+            --exclude '.venv' \
+            --exclude 'build' \
+            --exclude 'dist' \
+            --exclude 'cache' \
+            --exclude '.cache' \
+            --exclude 'tmp' \
+            --exclude '.tmp' \
+            --exclude 'temp' \
+            --exclude '.temp' \
+            --exclude 'Trash' \
+            --exclude '.Trash' \
+            . 2>/dev/null | fzf --preview 'eza --tree --level 2 --color=always {}' +m) && cd "$dir" || return
+    }
+fi
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -370,7 +390,7 @@ export PATH="$HOME/bin:$PATH"
 # <-------------------- JAVA CLASSPATH CONFIGURATION -------------------->
 
 # Define the base directory where the jars are stored
-CLASSPATH_PREFIX="home/andreaventi/.dotfiles/configs/javaClasspath"
+CLASSPATH_PREFIX="/home/andreaventi/.dotfiles/configs/javaClasspath"
 
 # Clear existing java classpath entries
 export CLASSPATH=""
@@ -379,3 +399,4 @@ export CLASSPATH=""
 for jar in $(find "$CLASSPATH_PREFIX" -name '*.jar'); do
   export CLASSPATH="$CLASSPATH:$jar"
 done
+
