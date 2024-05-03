@@ -380,14 +380,16 @@ fi
 # Add the following line in `~/.config/nvim/lua/user/options.lua` to set the dynamic Python executable for pynvim
 # python3_host_prog = "$NVIM_PYTHON_PATH",
 
+export JAVA_HOME=/usr/lib/jvm/jdk-22.0.1
+export PATH=$JAVA_HOME/bin:$PATH
 
-export PATH=$PATH:/sbin:/usr/sbin
-
-export JAVA_HOME=/usr/local/jdk-21.0.2
-export PATH=$PATH:$JAVA_HOME/bin
-
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/bin:$PATH"
+# TO UPDATE JAVA:
+# 1. Download the latest JDK from the Oracle website
+# wget https://download.oracle.com/java/22/latest/jdk-22_linux-aarch64_bin.tar.gz
+# 2. Extract the tarball
+# tar -xvf jdk-22_linux-aarch64_bin.tar.gz
+# 3. Move the extracted directory to /usr/lib/jvm
+# sudo mv jdk-22.0.1 /usr/lib/jvm/
 
 # <-------------------- JAVA CLASSPATH CONFIGURATION -------------------->
 
