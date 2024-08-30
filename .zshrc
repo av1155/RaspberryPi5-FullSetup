@@ -117,6 +117,7 @@ source $ZSH/oh-my-zsh.sh
 [ -f ~/scripts/scripts/imgp.sh ] && alias imgp="~/scripts/scripts/imgp.sh"
 [ -f ~/scripts/scripts/sqlurl.sh ] && alias sqlurl="~/scripts/scripts/sqlurl.sh"
 [ -f ~/scripts/scripts/nvim_surround_usage.sh ] && alias vs="~/scripts/scripts/nvim_surround_usage.sh"
+[ -f ~/scripts/scripts/package_updater_rpi.zsh ] && alias upall="~/scripts/scripts/package_updater_rpi.zsh"
 
 alias vim='/home/andreaventi/neovim-aarch64-appimage/nvim-v0.9.4.appimage'
 # alias fd='fdfind'
@@ -380,7 +381,7 @@ fi
 # Add the following line in `~/.config/nvim/lua/user/options.lua` to set the dynamic Python executable for pynvim
 # python3_host_prog = "$NVIM_PYTHON_PATH",
 
-export JAVA_HOME=/usr/lib/jvm/jdk-22.0.1
+export JAVA_HOME=/usr/lib/jvm/jdk-22.0.2
 export PATH=$JAVA_HOME/bin:$PATH
 
 # TO UPDATE JAVA:
@@ -404,3 +405,4 @@ for jar in $(find "$CLASSPATH_PREFIX" -name '*.jar'); do
   export CLASSPATH="$CLASSPATH:$jar"
 done
 
+eval "$(gh copilot alias -- zsh)"
