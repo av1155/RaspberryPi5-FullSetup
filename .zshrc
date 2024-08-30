@@ -122,6 +122,12 @@ source $ZSH/oh-my-zsh.sh
 alias vim='/home/andreaventi/neovim-aarch64-appimage/nvim-v0.9.4.appimage'
 # alias fd='fdfind'
 
+# Fuzzy Finder + Nvim Custom Alias
+# Searches files with 'fd', previews with 'bat', and opens in 'nvim' via 'fzf'.
+command -v fd &>/dev/null && command -v fzf &>/dev/null && \
+    command -v bat &>/dev/null && command -v vim &>/dev/null && \
+    alias f="fd --type f --hidden --exclude .git | fzf --preview 'bat --color=always {1}' | xargs '/home/andreaventi/neovim-aarch64-appimage/nvim-v0.9.4.appimage'"
+
 # Check if Git is installed
 if command -v git &>/dev/null; then
 
@@ -306,7 +312,7 @@ if command -v fd &>/dev/null && command -v fzf &>/dev/null && command -v colorls
             --exclude '.temp' \
             --exclude 'Trash' \
             --exclude '.Trash' \
-            . 2>/dev/null | fzf --preview 'eza --tree --level 2 --color=always {}' +m) && cd "$dir" || return
+            . 2>/dev/null | fzf --preview 'eza --tree --level 2 --color=always {}' +m) && z "$dir" || return
     }
 fi
 
