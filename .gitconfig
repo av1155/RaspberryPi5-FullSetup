@@ -1,12 +1,13 @@
 [user]
     email = 117413846+av1155@users.noreply.github.com
-	name = av1155
+    name = av1155
     # signingkey = [Your GPG Key ID]
 
 [core]
     editor = sh -c 'command -v nvim >/dev/null 2>&1 && echo \"nvim\" || command -v code --wait >/dev/null 2>&1 && echo \"code --wait\" || echo \"vi\"'
     autocrlf = input
     excludesfile = ~/.gitignore_global
+    pager = delta
 
 [alias]
     count = !git ls-remote --heads origin | wc -l
@@ -34,30 +35,23 @@
     rebase = false
 
 [diff]
-  algorithm = histogram
+    algorithm = histogram
+    colorMoved = default
 
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-
-[core]
-    pager = delta
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
 
 [interactive]
     diffFilter = delta --color-only
 
 [delta]
-    navigate = true    # use n and N to move between diff section
-    side-by-side = true
+    navigate = true    # use n and N to move between diff sections
+    side-by-side = false
 
-    # delta detects terminal colors automaticaly; set one of these to disable auto-detection
+    # delta detects terminal colors automatically; set one of these to disable auto-detection
     # dark = true
     # light = true
 
-[merge]
-    conflictStyle = diff3
-
-[diff]
-    colorMoved = default

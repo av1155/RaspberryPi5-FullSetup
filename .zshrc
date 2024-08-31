@@ -119,7 +119,8 @@ source $ZSH/oh-my-zsh.sh
 [ -f ~/scripts/scripts/nvim_surround_usage.sh ] && alias vs="~/scripts/scripts/nvim_surround_usage.sh"
 [ -f ~/scripts/scripts/package_updater_rpi.zsh ] && alias upall="~/scripts/scripts/package_updater_rpi.zsh"
 
-alias vim='/home/andreaventi/neovim-aarch64-appimage/nvim-v0.9.4.appimage'
+alias vim='/home/andreaventi/Neovim/neovim-aarch64-appimage/nvim-v0.10.1-aarch64.appimage'
+alias nvim='/home/andreaventi/Neovim/neovim-aarch64-appimage/nvim-v0.10.1-aarch64.appimage'
 # alias fd='fdfind'
 
 # Fuzzy Finder + Nvim Custom Alias
@@ -397,3 +398,9 @@ for jar in $(find "$CLASSPATH_PREFIX" -name '*.jar'); do
 done
 
 eval "$(gh copilot alias -- zsh)"
+
+PATH="/home/andreaventi/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/andreaventi/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/andreaventi/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/andreaventi/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/andreaventi/perl5"; export PERL_MM_OPT;
