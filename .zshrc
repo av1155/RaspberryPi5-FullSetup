@@ -404,3 +404,9 @@ PERL5LIB="/home/andreaventi/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PE
 PERL_LOCAL_LIB_ROOT="/home/andreaventi/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/andreaventi/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/andreaventi/perl5"; export PERL_MM_OPT;
+
+# Create a compressed backup .img file and move it to the external USB:
+alias backup-rpi='sudo dd if=/dev/mmcblk0 bs=4M status=progress | gzip > /media/andreaventi/USB_DISK/raspberry_pi_backup.img.gz'
+
+# Watch for live changes to see the size of the compressed image file on the USB drive every 20 seconds:
+alias watch-backup='watch -n 20 "ls -l --block-size=1G /media/andreaventi/USB_DISK | awk '\''{ if (NR!=1) {gsub(/^[0-9]+$/, \"& GB\", \$5)}; print }'\''"'
