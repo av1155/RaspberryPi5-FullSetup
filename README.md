@@ -2,6 +2,8 @@
 
 Welcome to the setup guide for configuring your Raspberry Pi 5 to work seamlessly with an iPad Pro via USB-C Thunderbolt 4 and USB0 Ethernet, utilizing Blink Shell for SSH connections, as well as enabling remote access through RealVNC Viewer and setting up Code-Server for a portable development environment. This comprehensive guide covers the installation of necessary dependencies, configurations for SSH and VNC, and enhancements for your coding experience with additional tools and languages. The USB0 Ethernet makes this setup latency free and able to work anywhere via static IP address.
 
+Many of these steps are optional and simply steps that I take on my system, you may follow only the necessary steps (configuring the usb0 ethernet connection).
+
 ## Table of Contents
 
 1.  [Introduction](#introduction)
@@ -213,7 +215,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-completions
 ```
 
-#### Step 6: Activate Plugins in `.zshrc` File
+#### Step 6: Activate Plugins in the `.zshrc` File
 
 ```bash
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions)
@@ -349,6 +351,26 @@ lazygit --version
 
 ### Neovim Setup
 
+#### Install Snap Package Manager
+
+```bash
+sudo apt update
+sudo apt install snapd
+sudo reboot
+```
+
+#### Install Neovim package
+
+```bash
+sudo snap install core
+sudo snap install nvim --classic
+```
+
+That's it! Now neovim is installed and will always have a very recent version that works in aarch64!
+Snap is a great package manager that works very well in Raspberry Pi OS.
+
+### !LEGACY NEOVIM SETUP METHOD!:
+
 Instructions for installing Neovim and Docker, facilitating an advanced text editing experience and container management:
 
 #### 1\. Install Docker
@@ -415,7 +437,7 @@ Now, you can run Neovim directly from the AppImage:
 
 Open either .bashrc or .zshrc and put this line:
 
-`alias vim='/home/andreaventi/neovim-aarch64-appimage/nvim-v0.9.4.appimage'`
+`alias vim='/home/USERNAME/neovim-aarch64-appimage/nvim-v0.9.4.appimage'`
 
 For optional configuration check this repository:
 `https://github.com/av1155/RaspberryPi-Nvim-Config`
@@ -426,6 +448,8 @@ Steps for installing Java JDK and Miniforge to support a broad range of developm
 
 #### Step 1: Download and install the Java JDK:
 
+- **!NOTE!:** You may need to change the `jdk-22.0.2` version to something else in each command, like, `jdk-22.0.3`
+
 ```bash
 cd ~  # Navigate to the home directory
 wget https://download.oracle.com/java/22/latest/jdk-22_linux-aarch64_bin.tar.gz  # Download the JDK
@@ -434,13 +458,13 @@ tar -xvf jdk-22_linux-aarch64_bin.tar.gz  # Extract the tar.gz file
 
 ```bash
 sudo mkdir -p /usr/lib/jvm  # Create a directory for JVMs if it doesn't exist
-sudo mv jdk-22.0.1 /usr/lib/jvm/  # Move the extracted JDK directory to /usr/lib/jvm/
+sudo mv jdk-22.0.2 /usr/lib/jvm/  # Move the extracted JDK directory to /usr/lib/jvm/
 ```
 
 **Set up environment variables** to use the installed Java as the default.
 
 ```bash
-echo "export JAVA_HOME=/usr/lib/jvm/jdk-22.0.1" >> ~/.zshrc
+echo "export JAVA_HOME=/usr/lib/jvm/jdk-22.0.2" >> ~/.zshrc
 echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> ~/.zshrc
 source ~/.zshrc
 java -version
@@ -477,7 +501,7 @@ cd ~/.config
 mkdir -p tmux
 ```
 
-- Lastly, either create a new tmux.conf file inside of the newly created ~/.config/tmux directory, or simply copy the tmux.conf file or its contents from this repository under ~/.config/tmux/
+- Lastly, either create a new tmux.conf file inside of the newly created `~/.config/tmux` directory, or simply copy the tmux.conf file or its contents from this repository under `~/.config/tmux/` to have a premade custom config.
 
 ### Other Languages and Tools
 
@@ -491,13 +515,20 @@ sudo apt install ruby-full
 gem install colorls
 ```
 
-- **Ruby and Colorls**
+To update all installed Ruby gems and clean up old versions, use the following commands:
+
+```bash
+sudo gem update
+sudo gem cleanup
+```
+
+- **Optional apt Packages**
+  Delta and thefuck are optional packages which add QOL features. Read into them to understand how to set them up.
 
 ```bash
 sudo apt update
 sudo apt install delta
 sudo apt install thefuck
-gem install colorls
 ```
 
 - **Cargo and Related Packages**
@@ -506,29 +537,37 @@ gem install colorls
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 rustc --version
 ```
+
 Remove the outdated `fzf` version and replace it with updated cargo `fzf`:
-```
+
+```bash
 sudo apt remove fzf
 ```
+
+Must have packages which are installed via cargo to have the latest versions. Read into all of these packages so you understand what they do, and how to use them.
 
 ```bash
 cargo install zoxide
 cargo install fzf
 cargo install eza
 cargo install bat
+cargo install cargo-update # Run `cargo install-update --all` to update all packages installed via cargo.
+cargo install cargo-cache # Run `cargo cache --autoclean` to cleanup.
 ```
 
 - **`fd` Symlink:**
+  On Debian-based systems, the `fd` utility is often installed as `fdfind` to avoid conflicts with another utility named `fd`. However, many developers and scripts expect the command to be simply `fd`. This symlink ensures that when you or any script calls `fd`, it correctly points to `fdfind`.
 
-```bash
-sudo ln -s $(which fdfind) /usr/local/bin/fd
-```
+  ```bash
+  sudo ln -s $(which fdfind) /usr/local/bin/fd
+  ```
 
-- **Luarocks**
+- **Luarocks:**
+  `Luarocks` is a package manager for the Lua programming language, allowing you to install and manage Lua modules. Installing `luarocks` ensures that you can easily add and manage Lua libraries, which can be critical for various development tasks, especially if you're working with Lua-based projects or tools.
 
-```bash
-sudo apt install luarocks
-```
+  ```bash
+  sudo apt install luarocks
+  ```
 
 ## Creating a Backup of Your SD Card
 

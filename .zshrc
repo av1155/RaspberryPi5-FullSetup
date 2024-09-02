@@ -14,9 +14,9 @@ export ZSH="$HOME/.oh-my-zsh"
 fpath+=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/pure
 
 # Initialize Pure prompt
-autoload -U promptinit; promptinit
+autoload -U promptinit
+promptinit
 prompt pure
-
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -33,7 +33,7 @@ prompt pure
 
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
-zstyle ':omz:update' mode auto      # update automatically without asking
+zstyle ':omz:update' mode auto # update automatically without asking
 # zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
@@ -110,63 +110,66 @@ source $ZSH/oh-my-zsh.sh
 
 # <-------------------- CUSTOM FUNCTIONS -------------------->
 
-
 # Sourced + Aliased Scripts ------------------------------------------------------->
-[ -f ~/scripts/scripts/JavaProject.zsh ] && { source ~/scripts/scripts/JavaProject.zsh; alias jp="javaproject"; }
+[ -f ~/scripts/scripts/JavaProject.zsh ] && {
+    source ~/scripts/scripts/JavaProject.zsh
+    alias jp="javaproject"
+}
 [ -f ~/scripts/scripts/JavaProjectManager/JavaProjectManager.zsh ] && alias jcr="~/scripts/scripts/JavaProjectManager/JavaProjectManager.zsh"
 [ -f ~/scripts/scripts/imgp.sh ] && alias imgp="~/scripts/scripts/imgp.sh"
 [ -f ~/scripts/scripts/sqlurl.sh ] && alias sqlurl="~/scripts/scripts/sqlurl.sh"
 [ -f ~/scripts/scripts/nvim_surround_usage.sh ] && alias vs="~/scripts/scripts/nvim_surround_usage.sh"
 [ -f ~/scripts/scripts/package_updater_rpi.zsh ] && alias upall="~/scripts/scripts/package_updater_rpi.zsh"
 
-alias vim='/home/andreaventi/Neovim/neovim-aarch64-appimage/nvim-v0.10.1-aarch64.appimage'
-alias nvim='/home/andreaventi/Neovim/neovim-aarch64-appimage/nvim-v0.10.1-aarch64.appimage'
+# alias vim='/home/andreaventi/Neovim/neovim-aarch64-appimage/nvim-v0.10.1-aarch64.appimage'
+# alias nvim='/home/andreaventi/Neovim/neovim-aarch64-appimage/nvim-v0.10.1-aarch64.appimage'
 # alias fd='fdfind'
+alias vim="nvim"
 
 # Fuzzy Finder + Nvim Custom Alias
 # Searches files with 'fd', previews with 'bat', and opens in 'nvim' via 'fzf'.
-command -v fd &>/dev/null && command -v fzf &>/dev/null && \
-    command -v bat &>/dev/null && command -v vim &>/dev/null && \
+command -v fd &>/dev/null && command -v fzf &>/dev/null &&
+    command -v bat &>/dev/null && command -v vim &>/dev/null &&
     alias f="fd --type f --hidden --exclude .git | fzf --preview 'bat --color=always {1}' | xargs '/home/andreaventi/neovim-aarch64-appimage/nvim-v0.9.4.appimage'"
 
 # Check if Git is installed
 if command -v git &>/dev/null; then
 
     # Staging and Committing
-    alias ga="git add"                                           # Stage all changes
-    alias gap="git add -p"                                       # Stage changes interactively
-    alias gcm="git commit -m"                                    # Commit with a message
-    alias gra="git commit --amend --reset-author --no-edit"      # Amend the last commit without changing its message
-    alias unwip="git reset HEAD~"                                # Undo the last commit but keep changes
-    alias uncommit="git reset HEAD~ --hard"                      # Undo the last commit and discard changes
+    alias ga="git add"                                      # Stage all changes
+    alias gap="git add -p"                                  # Stage changes interactively
+    alias gcm="git commit -m"                               # Commit with a message
+    alias gra="git commit --amend --reset-author --no-edit" # Amend the last commit without changing its message
+    alias unwip="git reset HEAD~"                           # Undo the last commit but keep changes
+    alias uncommit="git reset HEAD~ --hard"                 # Undo the last commit and discard changes
 
     # Branch and Merge
-    alias gco="git checkout"                                     # Switch branches or restore working tree files
-    alias gpfwl="git push --force-with-lease"                    # Force push with lease for safety
+    alias gco="git checkout"                                                               # Switch branches or restore working tree files
+    alias gpfwl="git push --force-with-lease"                                              # Force push with lease for safety
     alias gprune="git branch --merged main | grep -v '^[ *]*main\$' | xargs git branch -d" # Delete branches merged into main
 
     # Repository Status and Inspection
-    alias gs="git status"                                        # Show the working tree status
-    alias gl="git lg"                                            # Show commit logs in a graph format
-    alias glo="git log --oneline"                                # Show commit logs in a single line each
-    alias glt="git describe --tags --abbrev=0"                   # Describe the latest tag
+    alias gs="git status"                      # Show the working tree status
+    alias gl="git lg"                          # Show commit logs in a graph format
+    alias glo="git log --oneline"              # Show commit logs in a single line each
+    alias glt="git describe --tags --abbrev=0" # Describe the latest tag
 
     # Remote Operations
-    alias gpr="git pull -r"                                      # Pull with rebase
-    alias gup="gco main && gpr && gco -"                         # Update the current branch with changes from main
+    alias gpr="git pull -r"              # Pull with rebase
+    alias gup="gco main && gpr && gco -" # Update the current branch with changes from main
 
     # Stashing
-    alias hangon="git stash save -u"                             # Stash changes including untracked files
-    alias gsp="git stash pop"                                    # Apply stashed changes and remove them from the stash
+    alias hangon="git stash save -u" # Stash changes including untracked files
+    alias gsp="git stash pop"        # Apply stashed changes and remove them from the stash
 
     # Cleanup
-    alias gclean="git clean -df"                                 # Remove untracked files and directories
-    alias cleanstate="unwip && git checkout . && git clean -df"  # Undo last commit, revert changes, and clean untracked files
+    alias gclean="git clean -df"                                # Remove untracked files and directories
+    alias cleanstate="unwip && git checkout . && git clean -df" # Undo last commit, revert changes, and clean untracked files
 
     # Other Aliases
-    alias pear="git pair "                                       # Set up git pair for pair programming (requires git-pair gem)
+    alias pear="git pair "                                                # Set up git pair for pair programming (requires git-pair gem)
     alias rspec_units="rspec --exclude-pattern \"**/features/*_spec.rb\"" # Run RSpec tests excluding feature specs
-    alias awsume=". awsume sso;. awsume"                         # Alias for AWS role assumption
+    alias awsume=". awsume sso;. awsume"                                  # Alias for AWS role assumption
 
 fi
 
@@ -174,22 +177,22 @@ fi
 if command -v tmux &>/dev/null; then
 
     # Tmux Aliases
-    alias ta="tmux attach -t"                                    # Attaches tmux to a session (example: ta portal)
-    alias tn="tmux new-session -s "                              # Creates a new session
-    alias tk="tmux kill-session -t "                             # Kill session
-    alias tl="tmux list-sessions"                                # Lists all ongoing sessions
-    alias td="tmux detach"                                       # Detach from session
-    alias tc="clear; tmux clear-history; clear"                  # Tmux Clear pane
+    alias ta="tmux attach -t"                   # Attaches tmux to a session (example: ta portal)
+    alias tn="tmux new-session -s "             # Creates a new session
+    alias tk="tmux kill-session -t "            # Kill session
+    alias tl="tmux list-sessions"               # Lists all ongoing sessions
+    alias td="tmux detach"                      # Detach from session
+    alias tc="clear; tmux clear-history; clear" # Tmux Clear pane
 
 fi
 
 # Check if colorls is installed
 if command -v colorls &>/dev/null; then
 
-    alias ls="colorls -A --gs --sd"                              # Lists most files, directories first, with git status.
-    alias la="colorls -oA --sd --gs"                             # Full listing of all files, directories first, with git status.
-    alias lf="colorls -foa --sd --gs"                            # File-only listing, directories first, with git status.
-    alias lt="colorls --tree=3 --sd --gs --hyperlink"            # Tree view of directories with git status and hyperlinks.
+    alias ls="colorls -A --gs --sd"                   # Lists most files, directories first, with git status.
+    alias la="colorls -oA --sd --gs"                  # Full listing of all files, directories first, with git status.
+    alias lf="colorls -foa --sd --gs"                 # File-only listing, directories first, with git status.
+    alias lt="colorls --tree=3 --sd --gs --hyperlink" # Tree view of directories with git status and hyperlinks.
 
 fi
 
@@ -201,13 +204,12 @@ fi
 eval "$(fzf --zsh)"
 
 # --- setup fzf theme ---
-fg="#CBE0F0"            # Foreground color
-bg="#011628"            # Background color [UNUSED]
-bg_highlight="#143652"  # Background highlight color [UNUSED]
-purple="#B388FF"        # Purple color for highlights
-blue="#06BCE4"          # Blue color for info
-cyan="#2CF9ED"          # Cyan color for various elements
-
+fg="#CBE0F0"           # Foreground color
+bg="#011628"           # Background color [UNUSED]
+bg_highlight="#143652" # Background highlight color [UNUSED]
+purple="#B388FF"       # Purple color for highlights
+blue="#06BCE4"         # Blue color for info
+cyan="#2CF9ED"         # Cyan color for various elements
 
 # Set default FZF options
 export FZF_DEFAULT_OPTS="-m --height 70% --border --extended --layout=reverse --color=fg:${fg},hl:${purple},fg+:${fg},hl+:${purple},info:${blue},prompt:${cyan},pointer:${cyan},marker:${cyan},spinner:${cyan},header:${cyan}"
@@ -221,12 +223,12 @@ export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git
 # - The first argument to the function ($1) is the base path to start traversal
 # - See the source code (completion.{bash,zsh}) for the details.
 _fzf_compgen_path() {
-  fd --hidden --exclude .git . "$1"
+    fd --hidden --exclude .git . "$1"
 }
 
 # Use fd to generate the list for directory completion
 _fzf_compgen_dir() {
-  fd --type=d --hidden --exclude .git . "$1"
+    fd --type=d --hidden --exclude .git . "$1"
 }
 
 # https://github.com/junegunn/fzf-git.sh
@@ -235,20 +237,19 @@ source ~/fzf-git.sh/fzf-git.sh
 export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
-
 # Advanced customization of fzf options via _fzf_comprun function
 # - The first argument to the function is the name of the command.
 # - You should make sure to pass the rest of the arguments to fzf.
 _fzf_comprun() {
-  local command=$1
-  shift
+    local command=$1
+    shift
 
-  case "$command" in
-    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
-    export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
-    ssh)          fzf --preview 'dig {}'                   "$@" ;;
-    *)            fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
-  esac
+    case "$command" in
+    cd) fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+    export | unset) fzf --preview "eval 'echo \$'{}" "$@" ;;
+    ssh) fzf --preview 'dig {}' "$@" ;;
+    *) fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
+    esac
 }
 
 # ----- Bat (better cat) -----
@@ -260,7 +261,6 @@ export BAT_THEME="Catppuccin Macchiato"
 eval $(thefuck --alias)
 eval $(thefuck --alias fk)
 
-
 # ---- Zoxide (better cd) ----
 eval "$(zoxide init zsh)"
 
@@ -270,7 +270,6 @@ alias cd="z"
 
 alias lg="lazygit"
 
-
 # fcd: A function to interactively navigate directories using find, fzf, and colorls.
 # This script allows you to visually search and select directories within a specified depth
 # and then directly change to the selected directory. It uses 'find' to list directories,
@@ -278,9 +277,9 @@ alias lg="lazygit"
 
 if command -v fd &>/dev/null && command -v fzf &>/dev/null && command -v colorls &>/dev/null; then
     fcd() {
-        local depth="${1:-9}"  # Default depth is 9, but can be overridden by first argument
+        local depth="${1:-9}" # Default depth is 9, but can be overridden by first argument
         local dir
-        dir=$(fd --type d --hidden --max-depth "$depth"\
+        dir=$(fd --type d --hidden --max-depth "$depth" \
             --exclude '.git' \
             --exclude 'Photos' \
             --exclude '.local' \
@@ -304,7 +303,7 @@ fi
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/andreaventi/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/andreaventi/miniforge3/bin/conda' 'shell.zsh' 'hook' 2>/dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
@@ -394,19 +393,35 @@ export CLASSPATH=""
 
 # Add each jar file found in the directory and its subdirectories to the CLASSPATH
 for jar in $(find "$CLASSPATH_PREFIX" -name '*.jar'); do
-  export CLASSPATH="$CLASSPATH:$jar"
+    export CLASSPATH="$CLASSPATH:$jar"
 done
 
 eval "$(gh copilot alias -- zsh)"
 
-PATH="/home/andreaventi/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/andreaventi/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/andreaventi/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/andreaventi/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/andreaventi/perl5"; export PERL_MM_OPT;
+PATH="/home/andreaventi/perl5/bin${PATH:+:${PATH}}"
+export PATH
+PERL5LIB="/home/andreaventi/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
+export PERL5LIB
+PERL_LOCAL_LIB_ROOT="/home/andreaventi/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
+export PERL_LOCAL_LIB_ROOT
+PERL_MB_OPT="--install_base \"/home/andreaventi/perl5\""
+export PERL_MB_OPT
+PERL_MM_OPT="INSTALL_BASE=/home/andreaventi/perl5"
+export PERL_MM_OPT
 
 # Create a compressed backup .img file and move it to the external USB:
-alias backup-rpi='sudo dd if=/dev/mmcblk0 bs=4M status=progress | gzip > /media/andreaventi/USB_DISK/raspberry_pi_backup.img.gz'
+alias backup-rpi-compressed='sudo dd if=/dev/mmcblk0 bs=4M status=progress | gzip > /media/andreaventi/USB_DISK/raspberry_pi_backup.img.gz'
 
-# Watch for live changes to see the size of the compressed image file on the USB drive every 20 seconds:
-alias watch-backup='watch -n 20 "ls -l --block-size=1G /media/andreaventi/USB_DISK | awk '\''{ if (NR!=1) {gsub(/^[0-9]+$/, \"& GB\", \$5)}; print }'\''"'
+# Create an uncompressed backup .img file and move it to the external USB:
+alias backup-rpi-uncompressed='sudo dd if=/dev/mmcblk0 of="/media/andreaventi/T7 Shield/RPI-BACKUP/raspberry_pi_backup.img" bs=4M status=progress'
+
+# Create a compressed, shrunk backup of the Raspberry Pi SD card image on the T7 Shield drive
+alias shrink-rpi-backup='sudo pishrink.sh -arv "/media/andreaventi/T7 Shield/RPI-BACKUP/raspberry_pi_backup.img"'
+
+# Watch for live changes to see the size of the compressed image file on the current location every 20 seconds:
+alias watch-backup='watch -n 20 "colorls --almost-all -l"'
+
+# Calculate total storage consumed by Raspberry Pi:
+alias rpi-storage='sudo gdu --non-interactive /'
+
+export PATH="$PATH:/snap/bin"
