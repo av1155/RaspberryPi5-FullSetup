@@ -6,7 +6,9 @@ Many of these steps are optional and simply steps that I take on my system, you 
 
 > **Optional Setup Note:** I personally use my **new** [.dotfiles](https://github.com/av1155/.dotfiles) repository with my Raspberry Pi + iPad setup to maintain a mirrored development environment across Linux (Arch, Debian), macOS, and WSL. This guide fully covers the hardware setup for a seamless Raspberry Pi 5 and iPad connection, so using my dotfiles is entirely optional—only if you'd like to replicate my complete current configuration. The RaspberryPi5-FullSetup guide remains fully relevant on its own. The optional [.dotfiles](https://github.com/av1155/.dotfiles) repository includes a universal Zsh configuration, tmux session management, a robust Neovim configuration, and much more.
 
-<img src="GithubAssets/iPad+RaspberryPi5.jpg" alt="iPad Pro connected to Raspberry Pi 5" width="500" style="display: block; margin-left: auto; margin-right: auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid #ddd; padding: 10px;"/>
+<p align="center">
+  <img src="GithubAssets/iPad+RaspberryPi5.jpg" alt="iPad Pro connected to Raspberry Pi 5" width="500"/>
+</p>
 
 ## Table of Contents
 
