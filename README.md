@@ -4,6 +4,8 @@ Welcome to the setup guide for configuring your Raspberry Pi 5 to work seamlessl
 
 Many of these steps are optional and simply steps that I take on my system, you may follow only the necessary steps (configuring the usb0 ethernet connection).
 
+> **Optional Setup Note:** I personally use my **new** [.dotfiles](https://github.com/av1155/.dotfiles) repository with my Raspberry Pi + iPad setup to maintain a mirrored development environment across Linux (Arch, Debian), macOS, and WSL. This guide fully covers the hardware setup for a seamless Raspberry Pi 5 and iPad connection, so using my dotfiles is entirely optional—only if you'd like to replicate my complete current configuration. The RaspberryPi5-FullSetup guide remains fully relevant on its own. The optional [.dotfiles](https://github.com/av1155/.dotfiles) repository includes a universal Zsh configuration, tmux session management, a robust Neovim configuration, and much more.
+
 ## Table of Contents
 
 1.  [Introduction](#introduction)
@@ -71,24 +73,24 @@ sudo apt full-upgrade
 
 - **`config.txt`:**
 
-  - Add the following line to the end of the file, after `[all]`:
-    ```
-    dtoverlay=dwc2,dr_mode=peripheral
-    ```
+    - Add the following line to the end of the file, after `[all]`:
+        ```
+        dtoverlay=dwc2,dr_mode=peripheral
+        ```
 
-  **`cmdline.txt`:**
+    **`cmdline.txt`:**
 
-  - Insert the following line just before `rootwait`:
-    ```
-    modules-load=dwc2,g_ether
-    ```
+    - Insert the following line just before `rootwait`:
+        ```
+        modules-load=dwc2,g_ether
+        ```
 
 **Create the following file `/etc/network/interfaces.d/usb0` to enable USB-C Network:**
 
 - Paste the contents under the respective file that is in this repository.
-  ```bash
-  sudo nano /etc/network/interfaces.d/usb0
-  ```
+    ```bash
+    sudo nano /etc/network/interfaces.d/usb0
+    ```
 
 **To enable USB0 Ethernet connection:**
 
@@ -100,16 +102,16 @@ sudo apt install dnsmasq
 **Create the following file `/etc/dnsmasq.d/usb0` to handle IP addresses:**
 
 - Paste the contents under the respective file that is in this repository.
-  ```bash
-  sudo nano /etc/dnsmasq.d/usb0
-  ```
+    ```bash
+    sudo nano /etc/dnsmasq.d/usb0
+    ```
 
 **Create or modify the following file `/etc/dhcpcd.conf`**
 
 - Paste the contents under the respective file that is in this repository.
-  ```bash
-  sudo nano /etc/dhcpcd.conf
-  ```
+    ```bash
+    sudo nano /etc/dhcpcd.conf
+    ```
 
 ### Final Steps and Verification
 
@@ -558,16 +560,16 @@ cargo install cargo-cache # Run `cargo cache --autoclean` to cleanup.
 - **`fd` Symlink:**
   On Debian-based systems, the `fd` utility is often installed as `fdfind` to avoid conflicts with another utility named `fd`. However, many developers and scripts expect the command to be simply `fd`. This symlink ensures that when you or any script calls `fd`, it correctly points to `fdfind`.
 
-  ```bash
-  sudo ln -s $(which fdfind) /usr/local/bin/fd
-  ```
+    ```bash
+    sudo ln -s $(which fdfind) /usr/local/bin/fd
+    ```
 
 - **Luarocks:**
   `Luarocks` is a package manager for the Lua programming language, allowing you to install and manage Lua modules. Installing `luarocks` ensures that you can easily add and manage Lua libraries, which can be critical for various development tasks, especially if you're working with Lua-based projects or tools.
 
-  ```bash
-  sudo apt install luarocks
-  ```
+    ```bash
+    sudo apt install luarocks
+    ```
 
 ## Creating a Backup of Your SD Card
 
